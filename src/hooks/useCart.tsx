@@ -56,11 +56,9 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       if(amount < 0) throw new Error('Não pode ser negativo');
       const {data: stock} = await api.get('/stock')
       const productStock = stock.find((product: Stock) => product.id === productId );
-      console.log(productStock, amount)
       if(amount > productStock.amount ) throw new Error('Acima do estoque')
       setCart([...cart.map(product => product.id === productId ? {...product, amount} : product)])
     } catch(err) {
-      console.log(err)
       toast.error('Não foi possível atualizar a quantidade.')
     }
   };
