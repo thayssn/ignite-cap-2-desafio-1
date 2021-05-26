@@ -34,11 +34,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   useEffect(() => {
     localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart))
-    console.log(localStorage.getItem('@RocketShoes:cart'))
   }, [cart])
-
-  const updateLocalStorageCart = () => {
-  }
 
   const addProduct = async (product: Product) => {
     try {

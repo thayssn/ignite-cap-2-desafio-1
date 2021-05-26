@@ -22,7 +22,8 @@ const Cart = (): JSX.Element => {
 
   const cartFormatted = cart.map(product => ({
     ...product,
-    formattedPrice: formatPrice(product.price)
+    formattedPrice: formatPrice(product.price),
+    totalSum: formatPrice(product.price * product.amount)
   }))
 
   const total =
@@ -67,11 +68,11 @@ const Cart = (): JSX.Element => {
           {cartFormatted.map(product => (
             <tr data-testid="product" key={product.id}>
             <td>
-              <img src="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg" alt="Tênis de Caminhada Leve Confortável" />
+              <img src={ product.image } alt={ product.title } />
             </td>
             <td>
-              <strong>Tênis de Caminhada Leve Confortável</strong>
-              <span>R$ 179,90</span>
+              <strong>{ product.title }</strong>
+              <span>{ product.formattedPrice }</span>
             </td>
             <td>
               <div>
@@ -99,7 +100,7 @@ const Cart = (): JSX.Element => {
               </div>
             </td>
             <td>
-              <strong>{ product.formattedPrice }</strong>
+              <strong>{ product.totalSum }</strong>
             </td>
             <td>
               <button
