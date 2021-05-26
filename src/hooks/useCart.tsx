@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
 import { Product, Stock } from '../types';
@@ -14,7 +14,7 @@ interface UpdateProductAmount {
 
 interface CartContextData {
   cart: Product[];
-  addProduct: (productId: number) => Promise<void>;
+  addProduct: (product: Product) => Promise<void>;
   removeProduct: (productId: number) => void;
   updateProductAmount: ({ productId, amount }: UpdateProductAmount) => void;
 }
@@ -32,11 +32,20 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     return [];
   });
 
-  const addProduct = async (productId: number) => {
+  useEffect(() => {
+    localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart))
+    console.log(localStorage.getItem('@RocketShoes:cart'))
+  }, [cart])
+
+  const updateLocalStorageCart = () => {
+  }
+
+  const addProduct = async (product: Product) => {
     try {
-      // TODO
+      const updatedCart = [...cart, product]
+      setCart(updatedCart)
     } catch {
-      // TODO
+      
     }
   };
 
@@ -57,7 +66,8 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       const {data: stock} = await api.get('/stock')
       const productStock = stock.find((product: Stock) => product.id === productId );
       if(amount > productStock.amount ) throw new Error('Acima do estoque')
-      setCart([...cart.map(product => product.id === productId ? {...product, amount} : product)])
+      const productsList = cart.map(product => product.id === productId ? {...product, amount} : product);
+      setCart([...productsList])
     } catch(err) {
       toast.error('Não foi possível atualizar a quantidade.')
     }
