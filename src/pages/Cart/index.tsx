@@ -42,14 +42,16 @@ const Cart = (): JSX.Element => {
   }
 
   function handleProductDecrement(product: Product) {
-    updateProductAmount({
-      productId: product.id,
-      amount: product.amount - 1
-    })
+    if(product.amount > 1 ){
+      updateProductAmount({
+        productId: product.id,
+        amount: product.amount - 1
+      })
+    }
   }
 
   function handleRemoveProduct(productId: number) {
-    // TODO
+    removeProduct(productId)
   }
 
   return (
@@ -106,7 +108,7 @@ const Cart = (): JSX.Element => {
               <button
                 type="button"
                 data-testid="remove-product"
-              // onClick={() => handleRemoveProduct(product.id)}
+                onClick={() => handleRemoveProduct(product.id)}
               >
                 <MdDelete size={20} />
               </button>

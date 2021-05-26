@@ -41,13 +41,14 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       const updatedCart = [...cart, product]
       setCart(updatedCart)
     } catch {
-      
+      toast.error('Erro na adição do produto')
     }
   };
 
   const removeProduct = (productId: number) => {
     try {
-      // TODO
+      const updatedCart = cart.filter( product => product.id !== productId );
+      setCart(updatedCart);
     } catch {
       // TODO
     }
